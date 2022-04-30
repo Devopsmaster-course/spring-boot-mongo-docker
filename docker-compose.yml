@@ -1,22 +1,28 @@
 version: '3.1'
+
 services:
+  
   springboot:
-    image: ramurams/springapp:VERSION
-    restart: always # This will be ignored if we deploy in docker swarm
+    image: ramurams/springapp:1
     container_name: springboot
-    environment:
-    - MONGO_DB_HOSTNAME=mongo
-    - MONGO_DB_USERNAME=devdb
-    - MONGO_DB_PASSWORD=devdb@123
     ports:
       - 8080:8080
-    working_dir: /opt/app
+    environment:
+      - MONGO_DB_HOSTNAME=mongo
+      - MONGO_DB_USERNAME=devdb
+      - MONGO_DB_PASSWORD=devdb1234
     depends_on:
       - mongo
+    deploy:
+      replicas: 2
   mongo:
-    image: ramurams/springapp:VERSION
-    container_name: mongo
+    image: mongo
+    container_name: mongo-springboot
+    networks:
+      - overlaydemo
     environment:
-    - MONGO_INITDB_ROOT_USERNAME=devdb
-    - MONGO_INITDB_ROOT_PASSWORD=devdb@123
-    
+      - MONGODB_INIT_ROOT_USERNAME=devdb
+      - MONGODB_INIT_ROOT_PASSWORD=devdb@123
+networks:
+  overlaydemo:
+    external: true
