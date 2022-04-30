@@ -3,7 +3,7 @@ version: '3.1'
 services:
   
   springboot:
-    image: ramurams/springapp:1
+    image: ramurams/springapp:VERSION
     container_name: springboot
     ports:
       - 8080:8080
